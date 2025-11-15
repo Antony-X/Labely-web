@@ -6,6 +6,7 @@ import Button from '../components/Button'
 import Input from '../components/Input'
 import Select from '../components/Select'
 import { CheckCircle, Upload, X } from 'lucide-react'
+import { useProjects, Project } from '../contexts/ProjectContext'
 
 type Step = 1 | 2 | 3 | 4 | 5 | 6
 
@@ -32,6 +33,7 @@ interface ProjectData {
 
 export default function ProjectCreatePage() {
   const navigate = useNavigate()
+  const { addProject } = useProjects()
   const [currentStep, setCurrentStep] = useState<Step>(1)
   const [newClass, setNewClass] = useState('')
   const [projectData, setProjectData] = useState<ProjectData>({
@@ -72,8 +74,29 @@ export default function ProjectCreatePage() {
   }
 
   const handleLaunch = () => {
-    // Mock project creation
-    alert('Project created successfully!')
+    // Create new project
+    const newProject: Project = {
+      id: Date.now().toString(),
+      name: projectData.name,
+      status: 'Draft',
+      itemsLabeled: 0,
+      totalItems: projectData.itemCount,
+      spend: 0,
+      qualityScore: 0,
+      createdAt: new Date().toISOString().split('T')[0],
+      description: projectData.description,
+      useCase: projectData.useCase,
+      taskType: projectData.taskType,
+      labelClasses: projectData.labelClasses,
+      totalBudget: projectData.totalBudget,
+      perItemReward: projectData.perItemReward,
+      deadline: projectData.deadline,
+      labelsPerItem: projectData.labelsPerItem,
+      minElo: projectData.minElo,
+      goldCheckFrequency: projectData.goldCheckFrequency,
+    }
+
+    addProject(newProject)
     navigate('/dashboard')
   }
 

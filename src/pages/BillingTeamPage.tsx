@@ -34,31 +34,38 @@ const invoices = [
 const teamMembers = [
   {
     id: '1',
-    name: 'Sarah Johnson',
-    email: 'sarah@acme.com',
+    name: 'Nikoloz Gegenava',
+    email: 'nicolasgegenava@gmail.com',
     role: 'Owner',
     joinedAt: '2025-08-15',
   },
   {
     id: '2',
-    name: 'Michael Chen',
-    email: 'michael@acme.com',
+    name: 'Nikoloz Kipshidze',
+    email: 'kipshidze.nick@gmail.com',
     role: 'Editor',
     joinedAt: '2025-09-01',
   },
   {
     id: '3',
-    name: 'Emily Rodriguez',
-    email: 'emily@acme.com',
+    name: 'Antoni Ingorokva',
+    email: 'ingorokva.antoni@gmail.com',
     role: 'Editor',
     joinedAt: '2025-10-10',
   },
   {
     id: '4',
-    name: 'David Kim',
-    email: 'david@acme.com',
-    role: 'Viewer',
+    name: 'Giorgi Kavelashvili',
+    email: 'gkavelashvili2@gmail.com',
+    role: 'Editor',
     joinedAt: '2025-11-01',
+  },
+  {
+    id: '5',
+    name: 'Gigi Molashkhia',
+    email: 'molashkhiagigi@gmail.com',
+    role: 'Viewer',
+    joinedAt: '2025-11-05',
   },
 ]
 
@@ -192,21 +199,30 @@ export default function BillingTeamPage() {
             {/* Spending History Chart */}
             <Card>
               <h2 className="text-xl font-semibold mb-6">Spending History</h2>
-              <div className="h-64 flex items-end gap-4">
-                {invoices.reverse().map((invoice) => (
-                  <div key={invoice.id} className="flex-1 flex flex-col items-center">
-                    <div
-                      className="w-full bg-gradient-primary rounded-t-lg transition-all hover:opacity-80"
-                      style={{
-                        height: `${(invoice.amount / Math.max(...invoices.map((i) => i.amount))) * 100}%`,
-                      }}
-                    ></div>
-                    <div className="text-xs text-gray-500 mt-2">
-                      {new Date(invoice.date).toLocaleDateString('en-US', { month: 'short' })}
+              <div className="h-64 flex items-end justify-center gap-8 px-4">
+                {[...invoices].reverse().map((invoice) => {
+                  const maxAmount = Math.max(...invoices.map((i) => i.amount))
+                  const heightPercent = (invoice.amount / maxAmount) * 100
+
+                  return (
+                    <div key={invoice.id} className="flex flex-col items-center gap-2">
+                      <div className="flex flex-col items-center justify-end h-48">
+                        <div
+                          className="w-16 bg-gradient-primary rounded-t-lg transition-all hover:opacity-80 cursor-pointer"
+                          style={{
+                            height: `${heightPercent}%`,
+                            minHeight: '20px',
+                          }}
+                          title={`$${invoice.amount}`}
+                        ></div>
+                      </div>
+                      <div className="text-xs text-gray-500">
+                        {new Date(invoice.date).toLocaleDateString('en-US', { month: 'short' })}
+                      </div>
+                      <div className="text-sm font-semibold">${invoice.amount.toLocaleString()}</div>
                     </div>
-                    <div className="text-sm font-semibold">${invoice.amount}</div>
-                  </div>
-                ))}
+                  )
+                })}
               </div>
             </Card>
           </div>
