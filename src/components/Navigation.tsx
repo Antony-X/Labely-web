@@ -1,5 +1,6 @@
 import { Link, useLocation } from 'react-router-dom'
 import { BarChart3, User, CreditCard } from 'lucide-react'
+import logoSvg from '../assets/logo.svg'
 
 interface NavigationProps {
   isAuthenticated?: boolean
@@ -13,8 +14,11 @@ export default function Navigation({ isAuthenticated = false }: NavigationProps)
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <Link to={isAuthenticated ? '/dashboard' : '/'} className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-gradient-primary rounded-lg"></div>
-            <span className="text-2xl font-bold gradient-text">Labely</span>
+            <img
+              src={logoSvg}
+              alt="Labely Logo"
+              className="h-10"
+            />
           </Link>
 
           {isAuthenticated ? (

@@ -1,68 +1,10 @@
 import { Link } from 'react-router-dom'
+import { useMemo } from 'react'
 import Layout from '../components/Layout'
 import Card from '../components/Card'
 import Button from '../components/Button'
 import { Plus, Package, DollarSign, Clock, Star } from 'lucide-react'
-
-// Mock data
-const stats = {
-  totalItemsLabeled: 125430,
-  totalSpend: 8945,
-  avgTurnaround: 18.5,
-}
-
-const projects = [
-  {
-    id: '1',
-    name: 'Product Image Classification',
-    status: 'Running',
-    itemsLabeled: 8450,
-    totalItems: 10000,
-    spend: 845,
-    qualityScore: 96.5,
-    createdAt: '2025-11-10',
-  },
-  {
-    id: '2',
-    name: 'Sentiment Analysis Dataset',
-    status: 'Completed',
-    itemsLabeled: 50000,
-    totalItems: 50000,
-    spend: 2500,
-    qualityScore: 98.2,
-    createdAt: '2025-10-28',
-  },
-  {
-    id: '3',
-    name: 'Object Detection - Street Scenes',
-    status: 'Running',
-    itemsLabeled: 3200,
-    totalItems: 15000,
-    spend: 1920,
-    qualityScore: 94.8,
-    createdAt: '2025-11-08',
-  },
-  {
-    id: '4',
-    name: 'Medical Image Labeling',
-    status: 'Draft',
-    itemsLabeled: 0,
-    totalItems: 5000,
-    spend: 0,
-    qualityScore: 0,
-    createdAt: '2025-11-14',
-  },
-  {
-    id: '5',
-    name: 'Audio Transcription QA',
-    status: 'Completed',
-    itemsLabeled: 8000,
-    totalItems: 8000,
-    spend: 3200,
-    qualityScore: 97.1,
-    createdAt: '2025-10-15',
-  },
-]
+import { useProjects } from '../contexts/ProjectContext'
 
 function getStatusColor(status: string) {
   switch (status) {
@@ -78,6 +20,22 @@ function getStatusColor(status: string) {
 }
 
 export default function DashboardPage() {
+  const { projects } = useProjects()
+
+  // Calculate stats from projects
+  const stats = useMemo(() => {
+    const totalItemsLabeled = projects.reduce((sum, p) => sum + p.itemsLabeled, 0)
+    const totalSpend = projects.reduce((sum, p) => sum + p.spend, 0)
+    // Mock average turnaround for now
+    const avgTurnaround = 18.5
+
+    return {
+      totalItemsLabeled,
+      totalSpend,
+      avgTurnaround,
+    }
+  }, [projects])
+
   return (
     <Layout isAuthenticated>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
