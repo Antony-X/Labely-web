@@ -11,16 +11,16 @@ export default function Select({ label, error, options, className, ...props }: S
   return (
     <div className="w-full">
       {label && (
-        <label className="block text-sm font-medium text-gray-300 mb-2">
+        <label className="block text-sm font-medium text-gray-700 mb-2">
           {label}
         </label>
       )}
       <select
         className={clsx(
-          'w-full bg-gray-900 border rounded-lg px-4 py-3 text-gray-100 focus:outline-none focus:ring-2 transition-all',
+          'w-full bg-white border rounded-xl px-4 py-3 text-gray-900 focus:outline-none focus:ring-2 transition-all shadow-sm',
           error
-            ? 'border-red-500 focus:ring-red-500'
-            : 'border-gray-700 focus:ring-purple-500 focus:border-transparent',
+            ? 'border-red-300 focus:ring-red-500'
+            : 'border-gray-300 focus:ring-purple-500 focus:border-transparent',
           className
         )}
         {...props}
@@ -31,7 +31,7 @@ export default function Select({ label, error, options, className, ...props }: S
           </option>
         ))}
       </select>
-      {error && <p className="mt-1 text-sm text-red-400">{error}</p>}
+      {error && <p className="mt-1 text-sm text-red-600">{error}</p>}
     </div>
   )
 }
