@@ -21,12 +21,16 @@ export default function HomePage() {
               datasets in hours. Built for ML teams that ship fast.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg">Create a project</Button>
+              <Link to="/signup">
+                <Button size="lg" className="shadow-lg shadow-purple-500/50 hover:shadow-xl hover:shadow-purple-500/60">
+                  Create a project
+                </Button>
+              </Link>
               <Button variant="secondary" size="lg">
                 Book a demo
               </Button>
             </div>
-            <div className="mt-12 flex items-center justify-center gap-8 text-sm text-gray-500">
+            <div className="mt-12 flex items-center justify-center gap-8 text-sm text-gray-400">
               <div>
                 <span className="text-2xl font-bold text-white">10M+</span>
                 <p>Items labeled</p>
