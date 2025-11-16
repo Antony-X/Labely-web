@@ -21,6 +21,7 @@ interface ProjectData {
   // Step 3
   files: File[]
   itemCount: number
+  modelFile: File | null
   // Step 4
   totalBudget: number
   perItemReward: number
@@ -44,6 +45,7 @@ export default function ProjectCreatePage() {
     labelClasses: [],
     files: [],
     itemCount: 0,
+    modelFile: null,
     totalBudget: 1000,
     perItemReward: 0.1,
     deadline: '',
@@ -94,6 +96,8 @@ export default function ProjectCreatePage() {
       labelsPerItem: projectData.labelsPerItem,
       minElo: projectData.minElo,
       goldCheckFrequency: projectData.goldCheckFrequency,
+      modelFile: projectData.modelFile,
+      modelName: projectData.modelFile?.name,
     }
 
     addProject(newProject)
@@ -122,6 +126,15 @@ export default function ProjectCreatePage() {
       setProjectData({
         ...projectData,
         files: Array.from(e.target.files),
+      })
+    }
+  }
+
+  const handleModelUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      setProjectData({
+        ...projectData,
+        modelFile: e.target.files[0],
       })
     }
   }
@@ -270,7 +283,7 @@ export default function ProjectCreatePage() {
           {/* Step 3: Upload Data */}
           {currentStep === 3 && (
             <div className="space-y-6">
-              <h2 className="text-2xl font-bold mb-6">Upload Data</h2>
+              <h2 className="text-2xl font-bold mb-6">Upload Data & Model</h2>
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-2">
                   Data files
@@ -304,6 +317,41 @@ export default function ProjectCreatePage() {
                   </div>
                 )}
               </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">
+                  Model file (optional)
+                </label>
+                <p className="text-xs text-gray-400 mb-3">
+                  Upload your trained model to track accuracy and performance metrics
+                </p>
+                <div className="border-2 border-dashed border-gray-700 rounded-lg p-8 text-center hover:border-purple-500/50 transition-colors">
+                  <Upload className="mx-auto mb-3 text-gray-500" size={32} />
+                  <p className="text-gray-400 mb-2 text-sm">
+                    Upload model file (.h5, .pt, .pkl, .onnx)
+                  </p>
+                  <input
+                    type="file"
+                    accept=".h5,.pt,.pkl,.onnx,.pth,.pb"
+                    onChange={handleModelUpload}
+                    className="hidden"
+                    id="model-upload"
+                  />
+                  <label htmlFor="model-upload">
+                    <span className="btn-secondary inline-block cursor-pointer text-sm px-4 py-2">
+                      Choose model
+                    </span>
+                  </label>
+                </div>
+                {projectData.modelFile && (
+                  <div className="mt-3 bg-purple-500/10 border border-purple-500/20 rounded-lg p-3">
+                    <p className="text-sm text-purple-400">
+                      ✓ {projectData.modelFile.name} ({(projectData.modelFile.size / 1024 / 1024).toFixed(2)} MB)
+                    </p>
+                  </div>
+                )}
+              </div>
+
               <Input
                 type="number"
                 label="Approximate number of items to label"
