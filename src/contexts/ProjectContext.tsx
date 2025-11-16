@@ -1,5 +1,13 @@
 import { createContext, useContext, useState, ReactNode } from 'react'
 
+export interface ModelMetrics {
+  accuracy: number
+  precision: number
+  recall: number
+  f1Score: number
+  epoch: number
+}
+
 export interface Project {
   id: string
   name: string
@@ -19,6 +27,11 @@ export interface Project {
   labelsPerItem?: number
   minElo?: number
   goldCheckFrequency?: number
+  // Model-related fields
+  modelFile?: File | null
+  modelName?: string
+  modelMetrics?: ModelMetrics[]
+  currentAccuracy?: number
 }
 
 interface ProjectContextType {
@@ -41,6 +54,15 @@ const initialProjects: Project[] = [
     spend: 845,
     qualityScore: 96.5,
     createdAt: '2025-11-10',
+    modelName: 'resnet50_v2.h5',
+    currentAccuracy: 94.2,
+    modelMetrics: [
+      { epoch: 1, accuracy: 72.5, precision: 71.2, recall: 70.8, f1Score: 71.0 },
+      { epoch: 2, accuracy: 81.3, precision: 80.9, recall: 80.5, f1Score: 80.7 },
+      { epoch: 3, accuracy: 87.6, precision: 87.2, recall: 86.8, f1Score: 87.0 },
+      { epoch: 4, accuracy: 91.2, precision: 90.8, recall: 90.5, f1Score: 90.7 },
+      { epoch: 5, accuracy: 94.2, precision: 93.9, recall: 93.7, f1Score: 93.8 },
+    ],
   },
   {
     id: '2',
@@ -51,6 +73,15 @@ const initialProjects: Project[] = [
     spend: 2500,
     qualityScore: 98.2,
     createdAt: '2025-10-28',
+    modelName: 'bert_sentiment.pt',
+    currentAccuracy: 96.8,
+    modelMetrics: [
+      { epoch: 1, accuracy: 78.2, precision: 77.5, recall: 76.9, f1Score: 77.2 },
+      { epoch: 2, accuracy: 85.4, precision: 84.8, recall: 84.2, f1Score: 84.5 },
+      { epoch: 3, accuracy: 90.1, precision: 89.7, recall: 89.3, f1Score: 89.5 },
+      { epoch: 4, accuracy: 93.6, precision: 93.2, recall: 92.9, f1Score: 93.1 },
+      { epoch: 5, accuracy: 96.8, precision: 96.5, recall: 96.3, f1Score: 96.4 },
+    ],
   },
   {
     id: '3',
